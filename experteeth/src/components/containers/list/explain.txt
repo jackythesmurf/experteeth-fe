@@ -1,0 +1,3 @@
+List containers
+
+Def: Static (pre-determined, no need for instant update or changes) group of vertical items.

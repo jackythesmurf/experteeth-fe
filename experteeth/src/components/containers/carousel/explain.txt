@@ -1,0 +1,3 @@
+Carousel containers
+
+Def: horizontal rotating items
