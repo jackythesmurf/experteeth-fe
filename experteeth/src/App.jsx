@@ -1,8 +1,12 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import Home from "./pages/Home/Home";
+import {
+	BrowserRouter as Router,
+	Route,
+	Routes,
+} from "react-router-dom";
 import Navbar from "./components/containers/navs/HeaderNavBar/Navbar";
+import Home from "./pages/Home/Home";
+import FindLocation from "./pages/FindLocation/FindLocation";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "slick-carousel/slick/slick.css";
@@ -10,10 +14,17 @@ import "slick-carousel/slick/slick-theme.css";
 
 function App() {
 	return (
-		<div>
-			<Navbar></Navbar>
-			<Home></Home>
-		</div>
+		<Router>
+			<Navbar />
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route
+					path="/find-a-practice"
+					element={<FindLocation />}
+				/>
+		
+			</Routes>
+		</Router>
 	);
 }
 

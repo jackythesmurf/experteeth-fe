@@ -1,42 +1,23 @@
-import * as React from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-
-function samePageLinkNavigation(event) {
-	if (
-		event.defaultPrevented ||
-		event.button !== 0 || // ignore everything but left-click
-		event.metaKey ||
-		event.ctrlKey ||
-		event.altKey ||
-		event.shiftKey
-	) {
-		return false;
-	}
-	return true;
-}
+import { Link, useLocation } from "react-router-dom";
+import { Menu, MenuItem } from "@mui/material";
 
 function LinkTab(props) {
 	return (
 		<Tab
-			component="a"
-			onClick={(event) => {
-				if (samePageLinkNavigation(event)) {
-					event.preventDefault();
-				}
-			}}
-			aria-current={props.selected && "page"}
+			component={Link}
+			to={props.to}
 			sx={{
-				color: "#004d00", // Dark green for default tab color
-				fontSize: "1.2rem", // Increase font size
-				flex: 1, // Make the tab fill more space
-				minWidth: 250, // Set a minimum width for each tab
+				color: "#004d00",
+				fontSize: "1.2rem",
+				flex: 1,
+				minWidth: 250,
 				"&.Mui-selected": {
-					color: "#009688", // Neon mint green for the selected tab
+					color: "#009688",
 				},
 			}}
 			{...props}
@@ -45,24 +26,21 @@ function LinkTab(props) {
 }
 
 LinkTab.propTypes = {
-	selected: PropTypes.bool,
+	to: PropTypes.string.isRequired,
 };
 
 function Navbar() {
-	const [value, setValue] = React.useState(0);
+	const location = useLocation();
+	const [value, setValue] = React.useState(
+		getTabValue(location.pathname)
+	);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
-	const handleChange = (event, newValue) => {
-		if (
-			event.type !== "click" ||
-			(event.type === "click" &&
-				samePageLinkNavigation(event))
-		) {
-			setValue(newValue);
-		}
+	const handleTabChange = (event, newValue) => {
+		setValue(newValue);
 	};
 
-	const handleClick = (event) => {
+	const handleTreatmentMenuClick = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
 
@@ -70,7 +48,9 @@ function Navbar() {
 		setAnchorEl(null);
 	};
 
-	const open = Boolean(anchorEl);
+	React.useEffect(() => {
+		setValue(getTabValue(location.pathname));
+	}, [location.pathname]);
 
 	return (
 		<Box
@@ -84,57 +64,127 @@ function Navbar() {
 				sx={{
 					width: "100%",
 					maxWidth: "100%",
-					overflowX: "auto", // Enable horizontal scroll if needed
+					overflowX: "auto",
 					display: "flex",
-					justifyContent: "center", // Center the Tabs
+					justifyContent: "center",
 				}}>
 				<Tabs
 					value={value}
-					onChange={handleChange}
-					aria-label="nav tabs example"
-					role="navigation"
+					onChange={handleTabChange}
+					aria-label="nav tabs"
 					sx={{
-						minWidth: "max-content", // Ensure tabs container width grows with its content
+						minWidth: "max-content",
 						"& .MuiTabs-indicator": {
-							backgroundColor: "#23DCBD", // Neon mint green indicator
+							backgroundColor: "#23DCBD",
 						},
 					}}>
-					<LinkTab label="Home" href="/drafts" />
-					<LinkTab label="Find a practice" href="/drafts" />
+					<LinkTab label="Home" to="/" value={0} />
+					<LinkTab
+						label="Find a practice"
+						to="/find-a-practice"
+						value={1}
+					/>
+					<LinkTab
+						label="Dentist Team"
+						to="/dentist-team"
+						value={2}
+					/>
 					<Tab
 						label="Treatment"
-						onClick={handleClick}
-						aria-controls={
-							open ? "dropdown-menu" : undefined
-						}
+						aria-controls="treatment-menu"
 						aria-haspopup="true"
+						onClick={handleTreatmentMenuClick}
 						sx={{
-							color: "#040009", // Dark green for default tab color
-							fontSize: "1.2rem", // Increase font size
-							minWidth: 250, // Set a minimum width for each tab
-							flex: 1, // Make the tab fill more space
+							color: "#004d00",
+							fontSize: "1.2rem",
+							flex: 1,
+							minWidth: 250,
 							"&.Mui-selected": {
-								color: "#23DCBD", // Neon mint green for the selected tab
+								color: "#009688",
 							},
 						}}
 					/>
-					<LinkTab label="Dentist Team" href="/spam" />
-					<LinkTab label="Help me" href="/spam" />
 				</Tabs>
+				<Menu
+					id="treatment-menu"
+					anchorEl={anchorEl}
+					open={Boolean(anchorEl)}
+					onClose={handleClose}
+					PaperProps={{
+						sx: {
+							width: 300, // Increased width for better readability
+							maxWidth: "100%",
+							backgroundColor: "#f9f9f9", // Light background color for better visibility
+						},
+					}}
+					MenuListProps={{
+						sx: {
+							padding: 2, // Increase padding inside the menu
+						},
+					}}>
+					<MenuItem
+						component={Link}
+						to="/treatment/option2"
+						onClick={handleClose}
+						sx={{
+							fontSize: "1.1rem",
+							padding: "10px 20px",
+						}}>
+						Dental Services
+					</MenuItem>
+					<MenuItem
+						component={Link}
+						to="/treatment/option3"
+						onClick={handleClose}
+						sx={{
+							fontSize: "1.1rem",
+							padding: "10px 20px",
+						}}>
+						Cosmetic Dental Services
+					</MenuItem>
+					<MenuItem
+						component={Link}
+						to="/treatment/option4"
+						onClick={handleClose}
+						sx={{
+							fontSize: "1.1rem",
+							padding: "10px 20px",
+						}}>
+						Advanced Services
+					</MenuItem>
+					<MenuItem
+						component={Link}
+						to="/treatment"
+						onClick={handleClose}
+						sx={{
+							fontSize: "1.1rem", // Larger font size
+							padding: "12px 24px", // More padding for easier clicking
+							color: "#333333", // Darker text color for better readability
+							backgroundColor: "#12EDC8", // Softer mint green background
+							"&:hover": {
+								transition: 1,
+								backgroundColor: "#E1FEFA", // Lighter mint green on hover
+							},
+							borderRadius: "4px", // Rounded corners for a softer look
+						}}>
+						View All Treatments
+					</MenuItem>
+				</Menu>
 			</Box>
-			<Menu
-				id="dropdown-menu"
-				anchorEl={anchorEl}
-				open={open}
-				onClose={handleClose}>
-				<MenuItem onClick={handleClose}>Profile</MenuItem>
-				<MenuItem onClick={handleClose}>
-					My Account
-				</MenuItem>
-				<MenuItem onClick={handleClose}>Logout</MenuItem>
-			</Menu>
 		</Box>
 	);
+}
+
+// Helper function to get tab value based on pathname
+function getTabValue(pathname) {
+	const tabMap = {
+		"/": 0,
+		"/find-a-practice": 1,
+		"/dentist-team": 2,
+		"/help-me": 3,
+	};
+
+	return tabMap[pathname] ?? false;
 }
 
 export default Navbar;
