@@ -32,7 +32,7 @@ function LinkTab(props) {
 			icon={props.icon}
 			iconPosition="start"
 			sx={{
-				color: "#ffffff",
+				color: "#2ec4b6", // Teal color for text
 				fontSize: {
 					xs: "0.9rem",
 					sm: "1.1rem",
@@ -116,7 +116,7 @@ function Navbar() {
 				padding: "0 16px",
 				height: { xs: "56px", sm: "64px", md: "72px" },
 				boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-				background: "#2ec4b6", // Teal background
+				background: "#ffffff", // White background
 			}}>
 			<Box sx={{ display: "flex", alignItems: "center" }}>
 				<Avatar
@@ -140,7 +140,7 @@ function Navbar() {
 					aria-label="menu"
 					onClick={handleMobileMenuClick}
 					sx={{ padding: "8px" }}>
-					<MenuIcon sx={{ color: "#ffffff" }} />
+					<MenuIcon sx={{ color: "#2ec4b6" }} />
 				</IconButton>
 			) : (
 				<Box
@@ -184,7 +184,7 @@ function Navbar() {
 							label="Treatment"
 							onClick={handleTreatmentMenuClick}
 							sx={{
-								color: "#ffffff",
+								color: "#2ec4b6",
 								fontSize: {
 									xs: "0.9rem",
 									sm: "1.1rem",
@@ -219,7 +219,9 @@ function Navbar() {
 					sx: {
 						width: 300,
 						maxWidth: "100%",
-						backgroundColor: "#cbf3f0", // Light teal background
+						backgroundColor: "#ffffff", // White background for dropdown
+						boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+						borderRadius: "8px",
 					},
 				}}
 				MenuListProps={{
@@ -234,9 +236,13 @@ function Navbar() {
 					sx={{
 						fontSize: "1.1rem",
 						padding: "10px 20px",
+						color: "#2ec4b6",
 						"&:hover": {
 							backgroundColor: "#ffbf69", // Light orange on hover
+							color: "#ffffff", // White text on hover
 						},
+						borderRadius: "4px",
+						marginBottom: "4px", // Small gap between items
 					}}>
 					Dental Services
 				</MenuItem>
@@ -247,9 +253,13 @@ function Navbar() {
 					sx={{
 						fontSize: "1.1rem",
 						padding: "10px 20px",
+						color: "#2ec4b6",
 						"&:hover": {
 							backgroundColor: "#ffbf69",
+							color: "#ffffff",
 						},
+						borderRadius: "4px",
+						marginBottom: "4px",
 					}}>
 					Cosmetic Dental Services
 				</MenuItem>
@@ -260,9 +270,13 @@ function Navbar() {
 					sx={{
 						fontSize: "1.1rem",
 						padding: "10px 20px",
+						color: "#2ec4b6",
 						"&:hover": {
 							backgroundColor: "#ffbf69",
+							color: "#ffffff",
 						},
+						borderRadius: "4px",
+						marginBottom: "4px",
 					}}>
 					Advanced Services
 				</MenuItem>
@@ -276,8 +290,8 @@ function Navbar() {
 						color: "#ffffff",
 						backgroundColor: "#ff9f1c", // Orange background
 						"&:hover": {
-							transition: 1,
 							backgroundColor: "#ffbf69", // Light orange on hover
+							color: "#ffffff",
 						},
 						borderRadius: "4px",
 					}}>
@@ -293,7 +307,9 @@ function Navbar() {
 					sx: {
 						width: 250,
 						maxWidth: "100%",
-						backgroundColor: "#cbf3f0", // Light teal background
+						backgroundColor: "#ffffff", // White background for mobile menu
+						boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+						borderRadius: "8px",
 					},
 				}}
 				MenuListProps={{
@@ -339,9 +355,13 @@ function Navbar() {
 							sx={{
 								fontSize: "1rem",
 								padding: "10px 20px",
+								color: "#2ec4b6",
 								"&:hover": {
 									backgroundColor: "#ffbf69",
+									color: "#ffffff",
 								},
+								borderRadius: "4px",
+								marginBottom: "4px",
 							}}>
 							Dental Services
 						</MenuItem>
@@ -352,9 +372,13 @@ function Navbar() {
 							sx={{
 								fontSize: "1rem",
 								padding: "10px 20px",
+								color: "#2ec4b6",
 								"&:hover": {
 									backgroundColor: "#ffbf69",
+									color: "#ffffff",
 								},
+								borderRadius: "4px",
+								marginBottom: "4px",
 							}}>
 							Cosmetic Dental Services
 						</MenuItem>
@@ -365,9 +389,13 @@ function Navbar() {
 							sx={{
 								fontSize: "1rem",
 								padding: "10px 20px",
+								color: "#2ec4b6",
 								"&:hover": {
 									backgroundColor: "#ffbf69",
+									color: "#ffffff",
 								},
+								borderRadius: "4px",
+								marginBottom: "4px",
 							}}>
 							Advanced Services
 						</MenuItem>

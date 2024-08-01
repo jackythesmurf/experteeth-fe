@@ -14,6 +14,9 @@ import {
 	Toolbar,
 	IconButton,
 	Slide,
+	Card,
+	CardMedia,
+	CardContent,
 } from "@mui/material";
 import {
 	Autocomplete,
@@ -310,7 +313,42 @@ const DisplayLocMapColumn = () => {
 							width: "100%",
 							borderRadius: "12px",
 							overflow: "hidden",
+							position: "relative",
 						}}>
+						{selectedClinic && (
+							<Card
+								sx={{
+									position: "absolute",
+									top: 10,
+									left: 10,
+									zIndex: 10,
+									width: "300px",
+									backgroundColor: "#ffffff",
+									borderRadius: "12px",
+								}}>
+								<CardMedia
+									component="img"
+									alt="clinic"
+									height="140"
+									image="https://source.unsplash.com/random/300x200/?clinic"
+								/>
+								<CardContent>
+									<Typography
+										variant="h6"
+										sx={{
+											color: "#2ec4b6",
+										}}>
+										{selectedClinic.name}
+									</Typography>
+									<Typography
+										variant="body2"
+										color="textSecondary"
+										component="p">
+										{selectedClinic.address}
+									</Typography>
+								</CardContent>
+							</Card>
+						)}
 						<GoogleMap
 							mapContainerStyle={{
 								width: "100%",
