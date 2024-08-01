@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import Treatment from "./pages/Treatment/Treatment";
 function App() {
 	return (
 		<Router>
@@ -26,6 +26,9 @@ function App() {
 					path="/dentist-team"
 					element={<DentistTeam />}
 				/>
+				<Route
+					path = "/treatment"
+					element={<Treatment/>}/>
 			</Routes>
 		</Router>
 	);

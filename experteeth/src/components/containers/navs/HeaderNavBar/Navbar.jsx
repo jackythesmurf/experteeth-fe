@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { Link, useLocation } from "react-router-dom";
+import {
+	Link,
+	useLocation,
+	useNavigate,
+} from "react-router-dom";
 import {
 	Menu,
 	MenuItem,
@@ -14,14 +18,21 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import Logo from "./logo.png"
+import HomeIcon from "@mui/icons-material/Home";
+import SearchIcon from "@mui/icons-material/Search";
+import PeopleIcon from "@mui/icons-material/People";
+import HealingIcon from "@mui/icons-material/Healing";
+import Logo from "./logo.png";
+
 function LinkTab(props) {
 	return (
 		<Tab
 			component={Link}
 			to={props.to}
+			icon={props.icon}
+			iconPosition="start"
 			sx={{
-				color: "#004d00",
+				color: "#004d40",
 				fontSize: {
 					xs: "0.9rem",
 					sm: "1.1rem",
@@ -30,12 +41,16 @@ function LinkTab(props) {
 				flex: 1,
 				minWidth: 100,
 				"&.Mui-selected": {
-					color: "#009688",
+					color: "#00C853", // Mint Green for selected state
 				},
 				padding: {
 					xs: "6px 12px",
 					sm: "8px 16px",
 					md: "10px 20px",
+				},
+				transition: "color 0.3s ease",
+				"&:hover": {
+					color: "#00C853", // Mint Green for hover state
 				},
 			}}
 			{...props}
@@ -45,10 +60,12 @@ function LinkTab(props) {
 
 LinkTab.propTypes = {
 	to: PropTypes.string.isRequired,
+	icon: PropTypes.element,
 };
 
 function Navbar() {
 	const location = useLocation();
+	const navigate = useNavigate();
 	const [value, setValue] = React.useState(
 		getTabValue(location.pathname)
 	);
@@ -99,11 +116,12 @@ function Navbar() {
 				padding: "0 16px",
 				height: { xs: "56px", sm: "64px", md: "72px" },
 				boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+				background: "#ffffff", // White background
 			}}>
 			<Box sx={{ display: "flex", alignItems: "center" }}>
 				<Avatar
 					alt="Logo"
-					src={Logo} // Replace with the path to your logo
+					src={Logo}
 					sx={{
 						width: { xs: 40, sm: 50, md: 54 },
 						height: { xs: 40, sm: 50, md: 54 },
@@ -114,73 +132,84 @@ function Navbar() {
 						},
 					}}
 				/>
-				{isMobile ? (
-					<IconButton
-						edge="start"
-						color="inherit"
-						aria-label="menu"
-						onClick={handleMobileMenuClick}
-						sx={{ padding: "8px" }}>
-						<MenuIcon />
-					</IconButton>
-				) : (
-					<Box
-						sx={{
-							width: "100%",
-							maxWidth: "100%",
-							overflowX: "auto",
-							display: "flex",
-							justifyContent: "center",
-						}}>
-						<Tabs
-							value={value}
-							onChange={handleTabChange}
-							aria-label="nav tabs"
-							sx={{
-								minWidth: "max-content",
-								"& .MuiTabs-indicator": {
-									backgroundColor: "#23DCBD",
-								},
-							}}>
-							<LinkTab label="Home" to="/" value={0} />
-							<LinkTab
-								label="Find a practice"
-								to="/find-a-practice"
-								value={1}
-							/>
-							<LinkTab
-								label="Dentist Team"
-								to="/dentist-team"
-								value={2}
-							/>
-							<Tab
-								label="Treatment"
-								aria-controls="treatment-menu"
-								aria-haspopup="true"
-								onClick={handleTreatmentMenuClick}
-								sx={{
-									color: "#004d00",
-									fontSize: {
-										xs: "0.9rem",
-										sm: "1.1rem",
-										md: "1.2rem",
-									},
-									flex: 1,
-									minWidth: 100,
-									"&.Mui-selected": {
-										color: "#009688",
-									},
-									padding: {
-										xs: "6px 12px",
-										sm: "8px 16px",
-										md: "10px 20px",
-									},
-								}}
-							/>
-						</Tabs>
-					</Box>
-				)}
 			</Box>
+			{isMobile ? (
+				<IconButton
+					edge="start"
+					color="inherit"
+					aria-label="menu"
+					onClick={handleMobileMenuClick}
+					sx={{ padding: "8px" }}>
+					<MenuIcon sx={{ color: "#004d40" }} />
+				</IconButton>
+			) : (
+				<Box
+					sx={{
+						width: "100%",
+						maxWidth: "100%",
+						overflowX: "auto",
+						display: "flex",
+						justifyContent: "flex-end",
+					}}>
+					<Tabs
+						value={value}
+						onChange={handleTabChange}
+						aria-label="nav tabs"
+						sx={{
+							minWidth: "max-content",
+							"& .MuiTabs-indicator": {
+								backgroundColor: "#00C853", // Mint Green indicator
+							},
+						}}>
+						<LinkTab
+							icon={<HomeIcon />}
+							label="Home"
+							to="/"
+							value={0}
+						/>
+						<LinkTab
+							icon={<SearchIcon />}
+							label="Find a Practice"
+							to="/find-a-practice"
+							value={1}
+						/>
+						<LinkTab
+							icon={<PeopleIcon />}
+							label="Dentist Team"
+							to="/dentist-team"
+							value={2}
+						/>
+						<Tab
+							icon={<HealingIcon />}
+							label="Treatment"
+							onClick={handleTreatmentMenuClick}
+							sx={{
+								color: "#004d40",
+								fontSize: {
+									xs: "0.9rem",
+									sm: "1.1rem",
+									md: "1.2rem",
+								},
+								flex: 1,
+								minWidth: 100,
+								"&.Mui-selected": {
+									color: "#00C853",
+								},
+								padding: {
+									xs: "6px 12px",
+									sm: "8px 16px",
+									md: "10px 20px",
+								},
+								transition: "color 0.3s ease",
+								"&:hover": {
+									color: "#00C853",
+								},
+							}}
+							value={3}
+						/>
+					</Tabs>
+				</Box>
+			)}
 			<Menu
 				id="treatment-menu"
 				anchorEl={anchorEl}
@@ -190,7 +219,7 @@ function Navbar() {
 					sx: {
 						width: 300,
 						maxWidth: "100%",
-						backgroundColor: "#f9f9f9",
+						backgroundColor: "#e0f7fa", // Light blue background
 					},
 				}}
 				MenuListProps={{
@@ -200,31 +229,40 @@ function Navbar() {
 				}}>
 				<MenuItem
 					component={Link}
-					to="/treatment/option2"
+					to="/treatment#option2"
 					onClick={handleClose}
 					sx={{
 						fontSize: "1.1rem",
 						padding: "10px 20px",
+						"&:hover": {
+							backgroundColor: "#b2ebf2", // Light blue on hover
+						},
 					}}>
 					Dental Services
 				</MenuItem>
 				<MenuItem
 					component={Link}
-					to="/treatment/option3"
+					to="/treatment#option3"
 					onClick={handleClose}
 					sx={{
 						fontSize: "1.1rem",
 						padding: "10px 20px",
+						"&:hover": {
+							backgroundColor: "#b2ebf2",
+						},
 					}}>
 					Cosmetic Dental Services
 				</MenuItem>
 				<MenuItem
 					component={Link}
-					to="/treatment/option4"
+					to="/treatment#option4"
 					onClick={handleClose}
 					sx={{
 						fontSize: "1.1rem",
 						padding: "10px 20px",
+						"&:hover": {
+							backgroundColor: "#b2ebf2",
+						},
 					}}>
 					Advanced Services
 				</MenuItem>
@@ -235,11 +273,11 @@ function Navbar() {
 					sx={{
 						fontSize: "1.1rem",
 						padding: "12px 24px",
-						color: "#333333",
-						backgroundColor: "#12EDC8",
+						color: "#004d40",
+						backgroundColor: "#80deea", // Lighter mint green
 						"&:hover": {
 							transition: 1,
-							backgroundColor: "#E1FEFA",
+							backgroundColor: "#4dd0e1", // Darker mint green on hover
 						},
 						borderRadius: "4px",
 					}}>
@@ -255,7 +293,7 @@ function Navbar() {
 					sx: {
 						width: 250,
 						maxWidth: "100%",
-						backgroundColor: "#f9f9f9",
+						backgroundColor: "#e0f7fa", // Light blue background
 					},
 				}}
 				MenuListProps={{
@@ -267,18 +305,21 @@ function Navbar() {
 					component={Link}
 					to="/"
 					onClick={handleMobileMenuClose}>
+					<HomeIcon sx={{ mr: 1 }} />
 					Home
 				</MenuItem>
 				<MenuItem
 					component={Link}
 					to="/find-a-practice"
 					onClick={handleMobileMenuClose}>
-					Find a practice
+					<SearchIcon sx={{ mr: 1 }} />
+					Find a Practice
 				</MenuItem>
 				<MenuItem
 					component={Link}
 					to="/dentist-team"
 					onClick={handleMobileMenuClose}>
+					<PeopleIcon sx={{ mr: 1 }} />
 					Dentist Team
 				</MenuItem>
 				<MenuItem onClick={handleMobileSubMenuToggle}>
@@ -293,31 +334,40 @@ function Navbar() {
 					<Box sx={{ pl: 4 }}>
 						<MenuItem
 							component={Link}
-							to="/treatment/option2"
+							to="/treatment#option2"
 							onClick={handleMobileMenuClose}
 							sx={{
 								fontSize: "1rem",
 								padding: "10px 20px",
+								"&:hover": {
+									backgroundColor: "#b2ebf2",
+								},
 							}}>
 							Dental Services
 						</MenuItem>
 						<MenuItem
 							component={Link}
-							to="/treatment/option3"
+							to="/treatment#option3"
 							onClick={handleMobileMenuClose}
 							sx={{
 								fontSize: "1rem",
 								padding: "10px 20px",
+								"&:hover": {
+									backgroundColor: "#b2ebf2",
+								},
 							}}>
 							Cosmetic Dental Services
 						</MenuItem>
 						<MenuItem
 							component={Link}
-							to="/treatment/option4"
+							to="/treatment#option4"
 							onClick={handleMobileMenuClose}
 							sx={{
 								fontSize: "1rem",
 								padding: "10px 20px",
+								"&:hover": {
+									backgroundColor: "#b2ebf2",
+								},
 							}}>
 							Advanced Services
 						</MenuItem>
@@ -328,11 +378,11 @@ function Navbar() {
 							sx={{
 								fontSize: "1rem",
 								padding: "12px 24px",
-								color: "#333333",
-								backgroundColor: "#12EDC8",
+								color: "#004d40",
+								backgroundColor: "#80deea",
 								"&:hover": {
 									transition: 1,
-									backgroundColor: "#E1FEFA",
+									backgroundColor: "#4dd0e1",
 								},
 								borderRadius: "4px",
 							}}>
@@ -351,7 +401,7 @@ function getTabValue(pathname) {
 		"/": 0,
 		"/find-a-practice": 1,
 		"/dentist-team": 2,
-		"/help-me": 3,
+		"/treatment": 3,
 	};
 
 	return tabMap[pathname] ?? false;
