@@ -1,0 +1,37 @@
+[
+	{
+		"name": "Experteeth Dental 益白齿科",
+		"rating": 5.0,
+		"reviews": 466,
+		"type": "Dental clinic",
+		"address": "Suite 502/71-73 Archer St",
+		"phone": "(02) 9410 1080",
+		"hours": "Open ⋅ Closes 5:30 pm",
+		"comment": "Experteeth Dental is very nice as they treat patients warmly.",
+		"lat": -33.7969,
+		"lng": 151.1813
+	},
+	{
+		"name": "Experteeth Dental 益白齿科",
+		"rating": 4.8,
+		"reviews": 175,
+		"type": "Dental clinic",
+		"address": "Sydney NSW",
+		"phone": "(02) 9232 4051",
+		"hours": "Open ⋅ Closes 6 pm",
+		"comment": "Excellent professional service, couldn't recommend Experteeth dental more highly.",
+		"lat": -33.8688,
+		"lng": 151.2093
+	},
+	{
+		"name": "Experteeth Dental",
+		"rating": 4.9,
+		"reviews": 605,
+		"type": "Dental clinic",
+		"address": "Eastwood NSW",
+		"phone": "(02) 9858 3636",
+		"hours": "Open ⋅ Closes 5:30 pm",
+		"lat": -33.7891,
+		"lng": 151.0813
+	}
+]

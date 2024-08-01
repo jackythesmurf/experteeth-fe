@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
 	Box,
 	Typography,
@@ -10,54 +10,22 @@ import {
 	ListItemText,
 	CircularProgress,
 	Alert,
+	AppBar,
+	Toolbar,
+	IconButton,
 } from "@mui/material";
 import {
 	Autocomplete,
-	LoadScript,
+	useJsApiLoader,
 	GoogleMap,
 	Marker,
-	InfoWindow,
 } from "@react-google-maps/api";
+import SearchIcon from "@mui/icons-material/Search";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import ClinicModal from "../../../elements/Map/ClinicModal/ClinicModal";
+import clinics from "./clinic.json";
 
-const clinics = [
-	{
-		name: "Experteeth Dental 益白齿科",
-		rating: 5.0,
-		reviews: 466,
-		type: "Dental clinic",
-		address: "Suite 502/71-73 Archer St",
-		phone: "(02) 9410 1080",
-		hours: "Open ⋅ Closes 5:30 pm",
-		comment:
-			"Experteeth Dental is very nice as they treat patients warmly.",
-		lat: -33.7969,
-		lng: 151.1813,
-	},
-	{
-		name: "Experteeth Dental 益白齿科",
-		rating: 4.8,
-		reviews: 175,
-		type: "Dental clinic",
-		address: "Sydney NSW",
-		phone: "(02) 9232 4051",
-		hours: "Open ⋅ Closes 6 pm",
-		comment:
-			"Excellent professional service, couldn't recommend Experteeth dental more highly.",
-		lat: -33.8688,
-		lng: 151.2093,
-	},
-	{
-		name: "Experteeth Dental",
-		rating: 4.9,
-		reviews: 605,
-		type: "Dental clinic",
-		address: "Eastwood NSW",
-		phone: "(02) 9858 3636",
-		hours: "Open ⋅ Closes 5:30 pm",
-		lat: -33.7891,
-		lng: 151.0813,
-	},
-];
+const libraries = ["places"];
 
 const DisplayLocMapColumn = () => {
 	const [location, setLocation] = useState("");
@@ -68,10 +36,58 @@ const DisplayLocMapColumn = () => {
 	const [closestClinics, setClosestClinics] = useState([]);
 	const [selectedClinic, setSelectedClinic] =
 		useState(null);
+	const [modalOpen, setModalOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 	const autocompleteRef = useRef(null);
 	const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+
+	const { isLoaded, loadError } = useJsApiLoader({
+		googleMapsApiKey: apiKey,
+		libraries,
+	});
+
+	useEffect(() => {
+		let isMounted = true; // flag to check if component is mounted
+		const fetchClinics = async () => {
+			if (location) {
+				setLoading(true);
+				setError("");
+				try {
+					const sortedClinics = clinics
+						.map((clinic) => ({
+							...clinic,
+							distance: Math.hypot(
+								mapCenter.lat - clinic.lat,
+								mapCenter.lng - clinic.lng
+							),
+						}))
+						.sort((a, b) => a.distance - b.distance);
+					if (isMounted) {
+						setClosestClinics(sortedClinics);
+					}
+				} catch {
+					if (isMounted) {
+						setError(
+							"Failed to fetch clinic details. Please try again."
+						);
+					}
+				} finally {
+					if (isMounted) {
+						setLoading(false);
+					}
+				}
+			}
+		};
+
+		fetchClinics();
+
+		// Cleanup function to reset the loading state
+		return () => {
+			isMounted = false;
+			setLoading(false);
+		};
+	}, [location, mapCenter]);
 
 	const handlePlaceChanged = () => {
 		const place = autocompleteRef.current.getPlace();
@@ -79,50 +95,49 @@ const DisplayLocMapColumn = () => {
 			const lat = place.geometry.location.lat();
 			const lng = place.geometry.location.lng();
 			setLocation(place.formatted_address);
-			handleSearch(lat, lng);
-		}
-	};
-
-	const handleSearch = async (lat, lng) => {
-		setLoading(true);
-		setError("");
-		try {
-			let sortedClinics = clinics
-				.map((clinic) => {
-					const distance = Math.sqrt(
-						Math.pow(lat - clinic.lat, 2) +
-							Math.pow(lng - clinic.lng, 2)
-					);
-					return { ...clinic, distance };
-				})
-				.sort((a, b) => a.distance - b.distance);
-
-			setClosestClinics(sortedClinics);
 			setMapCenter({ lat, lng });
-		} catch (error) {
-			setError(
-				"Failed to fetch clinic details. Please try again."
-			);
-		} finally {
-			setLoading(false);
 		}
 	};
 
 	const handleMarkerClick = (clinic) => {
 		setSelectedClinic(clinic);
+		setModalOpen(true);
 	};
 
+	const handleCloseModal = () => {
+		setSelectedClinic(null);
+		setModalOpen(false);
+	};
+
+	if (loadError) {
+		return <div>Error loading maps</div>;
+	}
+
+	if (!isLoaded) {
+		return <div>Loading Maps...</div>;
+	}
+
 	return (
-		<LoadScript
-			googleMapsApiKey={apiKey}
-			libraries={["places"]}>
+		<Box
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				height: "100vh",
+			}}>
+			<AppBar position="static">
+				<Toolbar>
+					<Typography variant="h6" sx={{ flexGrow: 1 }}>
+						Clinic Locator
+					</Typography>
+				</Toolbar>
+			</AppBar>
 			<Box
 				sx={{
 					display: "flex",
 					flexDirection: "row",
-					height: "100vh",
-					width: "100%",
+					flexGrow: 1,
 					gap: 2,
+					p: 2,
 				}}>
 				{/* Left Section */}
 				<Box
@@ -131,11 +146,11 @@ const DisplayLocMapColumn = () => {
 						display: "flex",
 						flexDirection: "column",
 						padding: 2,
-						overflowY: "auto",
 						borderRight: "1px solid #ddd",
+						overflowY: "auto",
 					}}>
 					<Typography variant="h6" sx={{ mb: 2 }}>
-						Location Details
+						Search Location
 					</Typography>
 					<Paper elevation={3} sx={{ p: 2, mb: 2 }}>
 						<Autocomplete
@@ -151,14 +166,34 @@ const DisplayLocMapColumn = () => {
 								onChange={(e) =>
 									setLocation(e.target.value)
 								}
+								InputProps={{
+									endAdornment: (
+										<IconButton
+											onClick={() =>
+												setMapCenter({
+													lat: mapCenter.lat,
+													lng: mapCenter.lng,
+												})
+											}>
+											<SearchIcon />
+										</IconButton>
+									),
+								}}
 								sx={{ mb: 2 }}
 							/>
 						</Autocomplete>
 						<Button
 							variant="contained"
 							color="primary"
-							onClick={() => handleSearch()}
-							disabled={!location}>
+							onClick={() =>
+								setMapCenter({
+									lat: mapCenter.lat,
+									lng: mapCenter.lng,
+								})
+							}
+							disabled={!location}
+							startIcon={<LocationOnIcon />}
+							sx={{ mb: 2 }}>
 							Search
 						</Button>
 						{loading && (
@@ -176,10 +211,15 @@ const DisplayLocMapColumn = () => {
 								{error}
 							</Alert>
 						)}
-						{closestClinics.length > 0 && (
+						{closestClinics.length > 0 && !loading && (
 							<List sx={{ mt: 2 }}>
 								{closestClinics.map((clinic, index) => (
-									<ListItem key={index}>
+									<ListItem
+										key={index}
+										button
+										onClick={() =>
+											handleMarkerClick(clinic)
+										}>
 										<ListItemText
 											primary={clinic.name}
 											secondary={clinic.address}
@@ -219,40 +259,19 @@ const DisplayLocMapColumn = () => {
 										lat: clinic.lat,
 										lng: clinic.lng,
 									}}
-									icon={{
-										url: `http://maps.google.com/mapfiles/ms/icons/green-dot.png`,
-										scaledSize: new window.google.maps.Size(
-											40,
-											40
-										),
-									}}
 									onClick={() => handleMarkerClick(clinic)}
 								/>
 							))}
-
-							{selectedClinic && (
-								<InfoWindow
-									position={{
-										lat: selectedClinic.lat,
-										lng: selectedClinic.lng,
-									}}
-									onCloseClick={() =>
-										setSelectedClinic(null)
-									}>
-									<div>
-										<h3>{selectedClinic.name}</h3>
-										<p>{selectedClinic.address}</p>
-										<p>{selectedClinic.phone}</p>
-										<p>{selectedClinic.hours}</p>
-										<p>{selectedClinic.comment}</p>
-									</div>
-								</InfoWindow>
-							)}
 						</GoogleMap>
 					</Paper>
 				</Box>
 			</Box>
-		</LoadScript>
+			<ClinicModal
+				clinic={selectedClinic}
+				open={modalOpen}
+				onClose={handleCloseModal}
+			/>
+		</Box>
 	);
 };
 
