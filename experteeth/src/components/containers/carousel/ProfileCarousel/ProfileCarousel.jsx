@@ -141,7 +141,7 @@ const ProfileCarousel = () => {
 						<Paper
 							key={profile.id}
 							sx={{
-                                marginBottom: "20px",
+								marginBottom: "20px",
 								padding: "24px",
 								textAlign: "center",
 								boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",

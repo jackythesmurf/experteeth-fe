@@ -25,7 +25,7 @@ const BackgroundCarousel = () => {
 		<Box
 			sx={{
 				width: "100%",
-				height: "500px",
+				height: "250px",
 				overflow: "hidden", // Ensures no overflow
 				position: "relative", // Ensures correct positioning of children
 			}}>

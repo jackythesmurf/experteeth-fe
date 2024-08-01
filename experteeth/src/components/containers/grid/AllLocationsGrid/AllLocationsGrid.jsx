@@ -13,7 +13,6 @@ const locations = [
 const AllLocationsGrid = () => {
 	return (
 		<Grid container spacing={2}>
-			{" "}
 			{locations.map((location) => (
 				<Grid
 					item
@@ -26,29 +25,30 @@ const AllLocationsGrid = () => {
 					<Box
 						sx={{
 							display: "flex",
-							flexDirection: "row",
+							flexDirection: "row-reverse", // Move icon to the right
 							alignItems: "center",
-							height: "100px",
-							backgroundColor: "#23E9B6",
-							borderRadius: "8px",
-							padding: "16px",
+							height: "60px", // Shorter height
+							backgroundColor: "#46BBA9",
+							borderRadius: "0px", // No rounded corners
+							padding: "12px",
 							boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-							maxWidth: "200px",
+							maxWidth: "160px",
 							width: "100%",
 							boxSizing: "border-box", // Ensure padding and border are included in the box's total width
 						}}>
 						<LocationOnIcon
 							sx={{
-								fontSize: "48px",
-								color: "#DFFFF5",
-								mr: 2,
+								fontSize: "36px", // Adjusted icon size
+								color: "#FFFFFF",
+								ml: 2, // Margin-left instead of margin-right
 							}}
 						/>
 						<Typography
-							variant="body1"
+							variant="body2" // Appropriate text variant for smaller box
 							sx={{
-								color: "#DFFFF5",
+								color: "#FFFFFF",
 								fontWeight: "bold",
+								fontFamily: '"Metropolis", sans-serif', // Change font to Metropolis
 							}}>
 							{location.title}
 						</Typography>
