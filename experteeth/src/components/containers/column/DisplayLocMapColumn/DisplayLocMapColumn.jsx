@@ -13,6 +13,7 @@ import {
 	AppBar,
 	Toolbar,
 	IconButton,
+	Slide,
 } from "@mui/material";
 import {
 	Autocomplete,
@@ -123,12 +124,24 @@ const DisplayLocMapColumn = () => {
 				display: "flex",
 				flexDirection: "column",
 				height: "100vh",
+				backgroundColor: "#cbf3f0", // Light teal background
 			}}>
-			<AppBar position="static">
+			<AppBar
+				position="static"
+				sx={{ backgroundColor: "#2ec4b6" }}>
 				<Toolbar>
 					<Typography variant="h6" sx={{ flexGrow: 1 }}>
 						Clinic Locator
 					</Typography>
+					<IconButton
+						color="inherit"
+						aria-label="search"
+						onClick={() =>
+							autocompleteRef.current &&
+							autocompleteRef.current.focus()
+						}>
+						<SearchIcon />
+					</IconButton>
 				</Toolbar>
 			</AppBar>
 			<Box
@@ -140,7 +153,8 @@ const DisplayLocMapColumn = () => {
 					p: 2,
 				}}>
 				{/* Left Section */}
-				<Box
+				<Paper
+					elevation={3}
 					sx={{
 						flex: 1,
 						display: "flex",
@@ -148,88 +162,129 @@ const DisplayLocMapColumn = () => {
 						padding: 2,
 						borderRight: "1px solid #ddd",
 						overflowY: "auto",
+						borderRadius: "12px",
+						backgroundColor: "#ffffff",
 					}}>
-					<Typography variant="h6" sx={{ mb: 2 }}>
+					<Typography
+						variant="h6"
+						sx={{
+							mb: 2,
+							color: "#2ec4b6",
+							textAlign: "center",
+						}}>
 						Search Location
 					</Typography>
-					<Paper elevation={3} sx={{ p: 2, mb: 2 }}>
-						<Autocomplete
-							onLoad={(ref) =>
-								(autocompleteRef.current = ref)
-							}
-							onPlaceChanged={handlePlaceChanged}>
-							<TextField
-								label="Search Location"
-								variant="outlined"
-								fullWidth
-								value={location}
-								onChange={(e) =>
-									setLocation(e.target.value)
-								}
-								InputProps={{
-									endAdornment: (
-										<IconButton
-											onClick={() =>
-												setMapCenter({
-													lat: mapCenter.lat,
-													lng: mapCenter.lng,
-												})
-											}>
-											<SearchIcon />
-										</IconButton>
-									),
-								}}
-								sx={{ mb: 2 }}
-							/>
-						</Autocomplete>
-						<Button
-							variant="contained"
-							color="primary"
-							onClick={() =>
-								setMapCenter({
-									lat: mapCenter.lat,
-									lng: mapCenter.lng,
-								})
-							}
-							disabled={!location}
-							startIcon={<LocationOnIcon />}
-							sx={{ mb: 2 }}>
-							Search
-						</Button>
-						{loading && (
-							<Box
-								sx={{
-									display: "flex",
-									justifyContent: "center",
-									mt: 2,
-								}}>
-								<CircularProgress />
-							</Box>
-						)}
-						{error && (
-							<Alert severity="error" sx={{ mt: 2 }}>
-								{error}
-							</Alert>
-						)}
-						{closestClinics.length > 0 && !loading && (
-							<List sx={{ mt: 2 }}>
-								{closestClinics.map((clinic, index) => (
+					<Autocomplete
+						onLoad={(ref) =>
+							(autocompleteRef.current = ref)
+						}
+						onPlaceChanged={handlePlaceChanged}>
+						<TextField
+							label="Search Location"
+							variant="outlined"
+							fullWidth
+							value={location}
+							onChange={(e) => setLocation(e.target.value)}
+							InputProps={{
+								endAdornment: (
+									<IconButton
+										onClick={() =>
+											setMapCenter({
+												lat: mapCenter.lat,
+												lng: mapCenter.lng,
+											})
+										}>
+										<SearchIcon />
+									</IconButton>
+								),
+							}}
+							sx={{
+								mb: 2,
+								"& .MuiOutlinedInput-root": {
+									"& fieldset": {
+										borderColor: "#2ec4b6",
+									},
+									"&:hover fieldset": {
+										borderColor: "#ff9f1c",
+									},
+									"&.Mui-focused fieldset": {
+										borderColor: "#2ec4b6",
+									},
+								},
+							}}
+						/>
+					</Autocomplete>
+					<Button
+						variant="contained"
+						sx={{
+							backgroundColor: "#2ec4b6",
+							"&:hover": {
+								backgroundColor: "#ff9f1c",
+							},
+							transition: "background-color 0.3s ease",
+						}}
+						onClick={() =>
+							setMapCenter({
+								lat: mapCenter.lat,
+								lng: mapCenter.lng,
+							})
+						}
+						disabled={!location}
+						startIcon={<LocationOnIcon />}>
+						Search
+					</Button>
+					{loading && (
+						<Box
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								mt: 2,
+							}}>
+							<CircularProgress />
+						</Box>
+					)}
+					{error && (
+						<Alert severity="error" sx={{ mt: 2 }}>
+							{error}
+						</Alert>
+					)}
+					{closestClinics.length > 0 && !loading && (
+						<List sx={{ mt: 2 }}>
+							{closestClinics.map((clinic, index) => (
+								<Slide
+									direction="up"
+									in={true}
+									mountOnEnter
+									unmountOnExit
+									key={index}>
 									<ListItem
-										key={index}
 										button
 										onClick={() =>
 											handleMarkerClick(clinic)
-										}>
+										}
+										sx={{
+											"&:hover": {
+												backgroundColor: "#ffbf69",
+											},
+											mb: 1,
+											borderRadius: "8px",
+										}}>
 										<ListItemText
 											primary={clinic.name}
 											secondary={clinic.address}
+											primaryTypographyProps={{
+												color: "#2ec4b6",
+											}}
+											secondaryTypographyProps={{
+												color: "#ff9f1c",
+											}}
 										/>
 									</ListItem>
-								))}
-							</List>
-						)}
-					</Paper>
-				</Box>
+								</Slide>
+							))}
+						</List>
+					)}
+				</Paper>
 
 				{/* Right Section */}
 				<Box
@@ -239,12 +294,23 @@ const DisplayLocMapColumn = () => {
 						flexDirection: "column",
 						padding: 2,
 					}}>
-					<Typography variant="h6" sx={{ mb: 2 }}>
+					<Typography
+						variant="h6"
+						sx={{
+							mb: 2,
+							color: "#2ec4b6",
+							textAlign: "center",
+						}}>
 						Map
 					</Typography>
 					<Paper
 						elevation={3}
-						sx={{ height: "100%", width: "100%" }}>
+						sx={{
+							height: "100%",
+							width: "100%",
+							borderRadius: "12px",
+							overflow: "hidden",
+						}}>
 						<GoogleMap
 							mapContainerStyle={{
 								width: "100%",
@@ -260,6 +326,9 @@ const DisplayLocMapColumn = () => {
 										lng: clinic.lng,
 									}}
 									onClick={() => handleMarkerClick(clinic)}
+									icon={{
+										url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png", // Custom marker icon
+									}}
 								/>
 							))}
 						</GoogleMap>

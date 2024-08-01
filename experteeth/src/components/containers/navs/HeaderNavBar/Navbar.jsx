@@ -32,7 +32,7 @@ function LinkTab(props) {
 			icon={props.icon}
 			iconPosition="start"
 			sx={{
-				color: "#004d40",
+				color: "#ffffff",
 				fontSize: {
 					xs: "0.9rem",
 					sm: "1.1rem",
@@ -41,7 +41,7 @@ function LinkTab(props) {
 				flex: 1,
 				minWidth: 100,
 				"&.Mui-selected": {
-					color: "#00C853", // Mint Green for selected state
+					color: "#ff9f1c", // Orange for selected state
 				},
 				padding: {
 					xs: "6px 12px",
@@ -50,7 +50,7 @@ function LinkTab(props) {
 				},
 				transition: "color 0.3s ease",
 				"&:hover": {
-					color: "#00C853", // Mint Green for hover state
+					color: "#ffbf69", // Light orange for hover state
 				},
 			}}
 			{...props}
@@ -116,7 +116,7 @@ function Navbar() {
 				padding: "0 16px",
 				height: { xs: "56px", sm: "64px", md: "72px" },
 				boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-				background: "#ffffff", // White background
+				background: "#2ec4b6", // Teal background
 			}}>
 			<Box sx={{ display: "flex", alignItems: "center" }}>
 				<Avatar
@@ -140,7 +140,7 @@ function Navbar() {
 					aria-label="menu"
 					onClick={handleMobileMenuClick}
 					sx={{ padding: "8px" }}>
-					<MenuIcon sx={{ color: "#004d40" }} />
+					<MenuIcon sx={{ color: "#ffffff" }} />
 				</IconButton>
 			) : (
 				<Box
@@ -158,7 +158,7 @@ function Navbar() {
 						sx={{
 							minWidth: "max-content",
 							"& .MuiTabs-indicator": {
-								backgroundColor: "#00C853", // Mint Green indicator
+								backgroundColor: "#ff9f1c", // Orange indicator
 							},
 						}}>
 						<LinkTab
@@ -184,7 +184,7 @@ function Navbar() {
 							label="Treatment"
 							onClick={handleTreatmentMenuClick}
 							sx={{
-								color: "#004d40",
+								color: "#ffffff",
 								fontSize: {
 									xs: "0.9rem",
 									sm: "1.1rem",
@@ -193,7 +193,7 @@ function Navbar() {
 								flex: 1,
 								minWidth: 100,
 								"&.Mui-selected": {
-									color: "#00C853",
+									color: "#ff9f1c",
 								},
 								padding: {
 									xs: "6px 12px",
@@ -202,7 +202,7 @@ function Navbar() {
 								},
 								transition: "color 0.3s ease",
 								"&:hover": {
-									color: "#00C853",
+									color: "#ffbf69",
 								},
 							}}
 							value={3}
@@ -219,7 +219,7 @@ function Navbar() {
 					sx: {
 						width: 300,
 						maxWidth: "100%",
-						backgroundColor: "#e0f7fa", // Light blue background
+						backgroundColor: "#cbf3f0", // Light teal background
 					},
 				}}
 				MenuListProps={{
@@ -235,7 +235,7 @@ function Navbar() {
 						fontSize: "1.1rem",
 						padding: "10px 20px",
 						"&:hover": {
-							backgroundColor: "#b2ebf2", // Light blue on hover
+							backgroundColor: "#ffbf69", // Light orange on hover
 						},
 					}}>
 					Dental Services
@@ -248,7 +248,7 @@ function Navbar() {
 						fontSize: "1.1rem",
 						padding: "10px 20px",
 						"&:hover": {
-							backgroundColor: "#b2ebf2",
+							backgroundColor: "#ffbf69",
 						},
 					}}>
 					Cosmetic Dental Services
@@ -261,7 +261,7 @@ function Navbar() {
 						fontSize: "1.1rem",
 						padding: "10px 20px",
 						"&:hover": {
-							backgroundColor: "#b2ebf2",
+							backgroundColor: "#ffbf69",
 						},
 					}}>
 					Advanced Services
@@ -273,11 +273,11 @@ function Navbar() {
 					sx={{
 						fontSize: "1.1rem",
 						padding: "12px 24px",
-						color: "#004d40",
-						backgroundColor: "#80deea", // Lighter mint green
+						color: "#ffffff",
+						backgroundColor: "#ff9f1c", // Orange background
 						"&:hover": {
 							transition: 1,
-							backgroundColor: "#4dd0e1", // Darker mint green on hover
+							backgroundColor: "#ffbf69", // Light orange on hover
 						},
 						borderRadius: "4px",
 					}}>
@@ -293,7 +293,7 @@ function Navbar() {
 					sx: {
 						width: 250,
 						maxWidth: "100%",
-						backgroundColor: "#e0f7fa", // Light blue background
+						backgroundColor: "#cbf3f0", // Light teal background
 					},
 				}}
 				MenuListProps={{
@@ -340,7 +340,7 @@ function Navbar() {
 								fontSize: "1rem",
 								padding: "10px 20px",
 								"&:hover": {
-									backgroundColor: "#b2ebf2",
+									backgroundColor: "#ffbf69",
 								},
 							}}>
 							Dental Services
@@ -353,7 +353,7 @@ function Navbar() {
 								fontSize: "1rem",
 								padding: "10px 20px",
 								"&:hover": {
-									backgroundColor: "#b2ebf2",
+									backgroundColor: "#ffbf69",
 								},
 							}}>
 							Cosmetic Dental Services
@@ -366,7 +366,7 @@ function Navbar() {
 								fontSize: "1rem",
 								padding: "10px 20px",
 								"&:hover": {
-									backgroundColor: "#b2ebf2",
+									backgroundColor: "#ffbf69",
 								},
 							}}>
 							Advanced Services
@@ -378,11 +378,11 @@ function Navbar() {
 							sx={{
 								fontSize: "1rem",
 								padding: "12px 24px",
-								color: "#004d40",
-								backgroundColor: "#80deea",
+								color: "#ffffff",
+								backgroundColor: "#ff9f1c",
 								"&:hover": {
 									transition: 1,
-									backgroundColor: "#4dd0e1",
+									backgroundColor: "#ffbf69",
 								},
 								borderRadius: "4px",
 							}}>
