@@ -17,6 +17,7 @@ import {
 	Card,
 	CardMedia,
 	CardContent,
+	Tooltip,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -27,9 +28,10 @@ import {
 } from "@react-google-maps/api";
 import SearchIcon from "@mui/icons-material/Search";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import ClinicModal from "../../../elements/Map/ClinicModal/ClinicModal";
 import clinics from "./clinic.json";
-
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import ScheduleIcon from "@mui/icons-material/Schedule";
 const libraries = ["places"];
 
 const DisplayLocMapColumn = () => {
@@ -128,33 +130,95 @@ const DisplayLocMapColumn = () => {
 				display: "flex",
 				flexDirection: "column",
 				height: "100vh",
-				backgroundColor: "#cbf3f0", // Light teal background
+				backgroundColor: "#f7fefd", // Light teal background
 			}}>
-			<AppBar
-				position="static"
-				sx={{ backgroundColor: "#2ec4b6" }}>
-				<Toolbar>
-					<Typography variant="h6" sx={{ flexGrow: 1 }}>
-						Clinic Locator
-					</Typography>
-					<IconButton
-						color="inherit"
-						aria-label="search"
-						onClick={() =>
-							autocompleteRef.current &&
-							autocompleteRef.current.focus()
-						}>
-						<SearchIcon />
-					</IconButton>
-				</Toolbar>
-			</AppBar>
+			<Box
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					width: "100%",
+					maxWidth: "800px",
+					margin: "0 auto",
+					boxSizing: "border-box",
+				}}>
+				<Typography
+					variant="h5"
+					sx={{
+						marginBottom: "16px",
+						fontWeight: "bold",
+						color: "#333333",
+						textAlign: "center",
+					}}>
+					Find Your Nearest Clinic
+				</Typography>
+				<Autocomplete
+					onLoad={(ref) => (autocompleteRef.current = ref)}
+					onPlaceChanged={handlePlaceChanged}
+					sx={{ width: "100%" }}>
+					<TextField
+						label="Input your location"
+						variant="outlined"
+						value={location}
+						onChange={(e) => setLocation(e.target.value)}
+						InputProps={{
+							endAdornment: (
+								<IconButton
+									onClick={() =>
+										setMapCenter({
+											lat: mapCenter.lat,
+											lng: mapCenter.lng,
+										})
+									}
+									sx={{ color: "#ff9f1c" }} // Search icon color
+									aria-label="search location">
+									<SearchIcon />
+								</IconButton>
+							),
+						}}
+						sx={{
+							minWidth: "900px",
+							backgroundColor: "#ffffff", // Background color
+							borderRadius: "12px",
+							boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+							transition: "all 0.3s ease",
+							"& .MuiOutlinedInput-root": {
+								"& fieldset": {
+									borderColor: "#2ec4b6", // Border color
+									borderWidth: "1.5px",
+								},
+								"&:hover fieldset": {
+									borderColor: "#ff9f1c", // Hover border color
+								},
+								"&.Mui-focused fieldset": {
+									borderColor: "#2ec4b6", // Focused border color
+								},
+							},
+							"& .MuiInputLabel-root": {
+								color: "#2ec4b6", // Label color
+								fontSize: "1rem",
+							},
+							"& .MuiInputLabel-root.Mui-focused": {
+								color: "#2ec4b6", // Focused label color
+							},
+							"& .MuiOutlinedInput-input": {
+								padding: "14px",
+								backgroundColor: "#ffffff", // Input background color
+							},
+							mb: 3,
+						}}
+					/>
+				</Autocomplete>
+			</Box>
+
 			<Box
 				sx={{
 					display: "flex",
 					flexDirection: "row",
 					flexGrow: 1,
-					gap: 2,
-					p: 2,
+					gap: 4,
+					p: 15,
+					paddingTop: 5,
 				}}>
 				{/* Left Section */}
 				<Paper
@@ -168,75 +232,38 @@ const DisplayLocMapColumn = () => {
 						overflowY: "auto",
 						borderRadius: "12px",
 						backgroundColor: "#ffffff",
+						maxHeight: "70vh", // Set maximum height
+						// WebKit scrollbar styles (for Chrome, Safari)
+						"&::-webkit-scrollbar": {
+							width: "8px", // Width of the scrollbar
+						},
+						"&::-webkit-scrollbar-track": {
+							backgroundColor: "#f1f1f1", // Color of the track
+							borderRadius: "10px", // Rounded corners for the track
+						},
+						"&::-webkit-scrollbar-thumb": {
+							backgroundColor: "#888", // Color of the scrollbar thumb
+							borderRadius: "10px", // Rounded corners for the thumb
+						},
+						"&::-webkit-scrollbar-thumb:hover": {
+							backgroundColor: "#555", // Color on hover
+						},
+						// Firefox scrollbar styles
+						scrollbarWidth: "thin", // Width of the scrollbar
+						scrollbarColor: "#888 #f1f1f1", // Thumb color and track color
 					}}>
 					<Typography
 						variant="h6"
 						sx={{
-							mb: 2,
-							color: "#2ec4b6",
-							textAlign: "center",
+							color: "black",
+							textAlign: "left",
+							color: "#899898",
+							borderBottom: "2px solid #a9b4b4", // Simple underline
+							pb: 1.5, // Add some padding to separate the text from the underline
 						}}>
-						Search Location
+						Showing your nearest location
 					</Typography>
-					<Autocomplete
-						onLoad={(ref) =>
-							(autocompleteRef.current = ref)
-						}
-						onPlaceChanged={handlePlaceChanged}>
-						<TextField
-							label="Search Location"
-							variant="outlined"
-							fullWidth
-							value={location}
-							onChange={(e) => setLocation(e.target.value)}
-							InputProps={{
-								endAdornment: (
-									<IconButton
-										onClick={() =>
-											setMapCenter({
-												lat: mapCenter.lat,
-												lng: mapCenter.lng,
-											})
-										}>
-										<SearchIcon />
-									</IconButton>
-								),
-							}}
-							sx={{
-								mb: 2,
-								"& .MuiOutlinedInput-root": {
-									"& fieldset": {
-										borderColor: "#2ec4b6",
-									},
-									"&:hover fieldset": {
-										borderColor: "#ff9f1c",
-									},
-									"&.Mui-focused fieldset": {
-										borderColor: "#2ec4b6",
-									},
-								},
-							}}
-						/>
-					</Autocomplete>
-					<Button
-						variant="contained"
-						sx={{
-							backgroundColor: "#2ec4b6",
-							"&:hover": {
-								backgroundColor: "#ff9f1c",
-							},
-							transition: "background-color 0.3s ease",
-						}}
-						onClick={() =>
-							setMapCenter({
-								lat: mapCenter.lat,
-								lng: mapCenter.lng,
-							})
-						}
-						disabled={!location}
-						startIcon={<LocationOnIcon />}>
-						Search
-					</Button>
+
 					{loading && (
 						<Box
 							sx={{
@@ -253,38 +280,108 @@ const DisplayLocMapColumn = () => {
 						</Alert>
 					)}
 					{closestClinics.length > 0 && !loading && (
-						<List sx={{ mt: 2 }}>
+						<List>
 							{closestClinics.map((clinic, index) => (
-								<Slide
-									direction="up"
-									in={true}
-									mountOnEnter
-									unmountOnExit
-									key={index}>
-									<ListItem
-										button
-										onClick={() =>
-											handleMarkerClick(clinic)
-										}
-										sx={{
-											"&:hover": {
-												backgroundColor: "#ffbf69",
-											},
-											mb: 1,
-											borderRadius: "8px",
-										}}>
-										<ListItemText
-											primary={clinic.name}
-											secondary={clinic.address}
-											primaryTypographyProps={{
-												color: "#2ec4b6",
-											}}
-											secondaryTypographyProps={{
-												color: "#ff9f1c",
-											}}
-										/>
-									</ListItem>
-								</Slide>
+								<React.Fragment key={index}>
+									<Slide
+										direction="up"
+										in={true}
+										mountOnEnter
+										unmountOnExit>
+										<ListItem
+											button
+											onClick={() =>
+												handleMarkerClick(clinic)
+											}
+											sx={{
+												mb: 1,
+												paddingTop: 1,
+												paddingBottom: 5,
+												position: "relative",
+												borderBottom: "2px solid #a9b4b4", // Simple underline
+												"&:last-of-type": {
+													borderBottom: "none",
+												},
+											}}>
+											<ListItemText
+												sx={{
+													p: 1.5,
+												}}
+												primary={clinic.name}
+												secondary={clinic.address}
+												primaryTypographyProps={{
+													color: "#11c39c",
+												}}
+												secondaryTypographyProps={{
+													color: "#899898",
+												}}
+											/>
+											<Box
+												sx={{
+													position: "absolute",
+													right: 0,
+													display: "grid",
+													gap: 4, // Smaller gap between elements
+													mt: 6, // Reduce margin top for compactness
+												}}>
+												<a
+													href={`/appointment`}
+													target="_blank"
+													rel="noopener noreferrer"
+													style={{
+														textDecoration: "none",
+													}}>
+													<Button
+														variant="contained"
+														startIcon={<ScheduleIcon />} // Use ScheduleIcon from MUI
+														sx={{
+															display: "flex",
+															alignItems: "center",
+															justifyContent: "center",
+															backgroundColor: "black",
+															color: "#ffffff",
+															borderRadius: "6px", // Smaller border radius for tighter corners
+															padding: "6px 12px", // Reduced padding for smaller button size
+															fontWeight: "bold",
+															fontSize: "0.85rem", // Smaller font size
+															boxShadow:
+																"0 2px 4px rgba(0, 0, 0, 0.1)", // Slightly reduced shadow for compactness
+															transition:
+																"background-color 0.3s, transform 0.3s", // Smooth transitions
+															"&:hover": {
+																backgroundColor: "#11c39c", // Different color on hover
+																transform:
+																	"translateY(-1px)", // Subtle lift effect on hover
+															},
+														}}>
+														Request Appointment
+													</Button>
+												</a>
+												<a
+													href={`/clinics/${clinic.id}`}
+													target="_blank"
+													rel="noopener noreferrer"
+													style={{
+														textAlign: "right",
+														textDecoration: "none",
+													}}>
+													<Tooltip title="Redirect to Clinic's Site">
+														<IconButton
+															sx={{
+																color: "#2ec4b6",
+																padding: "6px", // Reduced padding for smaller icon button size
+																"&:hover": {
+																	color: "#ff9f1c",
+																},
+															}}>
+															<ArrowForwardIcon />
+														</IconButton>
+													</Tooltip>
+												</a>
+											</Box>
+										</ListItem>
+									</Slide>
+								</React.Fragment>
 							))}
 						</List>
 					)}
@@ -298,15 +395,6 @@ const DisplayLocMapColumn = () => {
 						flexDirection: "column",
 						padding: 2,
 					}}>
-					<Typography
-						variant="h6"
-						sx={{
-							mb: 2,
-							color: "#2ec4b6",
-							textAlign: "center",
-						}}>
-						Map
-					</Typography>
 					<Paper
 						elevation={3}
 						sx={{
@@ -384,7 +472,7 @@ const DisplayLocMapColumn = () => {
 									}}
 									onClick={() => handleMarkerClick(clinic)}
 									icon={{
-										url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png", // Custom marker icon
+										url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png", // Custom marker icon
 									}}
 								/>
 							))}

@@ -12,6 +12,7 @@ import "./App.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Treatment from "./pages/Treatment/Treatment";
+import Appointment from "./pages/Appointment/Appointment";
 function App() {
 	return (
 		<Router>
@@ -26,9 +27,11 @@ function App() {
 					path="/dentist-team"
 					element={<DentistTeam />}
 				/>
+				<Route path="/treatment" element={<Treatment />} />
 				<Route
-					path = "/treatment"
-					element={<Treatment/>}/>
+					path="/appointment"
+					element={<Appointment />}
+				/>
 			</Routes>
 		</Router>
 	);
