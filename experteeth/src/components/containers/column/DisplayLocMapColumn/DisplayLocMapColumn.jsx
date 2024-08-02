@@ -18,6 +18,7 @@ import {
 	CardMedia,
 	CardContent,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import {
 	Autocomplete,
 	useJsApiLoader,
@@ -325,6 +326,7 @@ const DisplayLocMapColumn = () => {
 									width: "300px",
 									backgroundColor: "#ffffff",
 									borderRadius: "12px",
+									overflow: "hidden", // Ensures the close button doesn't overflow
 								}}>
 								<CardMedia
 									component="img"
@@ -333,17 +335,34 @@ const DisplayLocMapColumn = () => {
 									image="https://source.unsplash.com/random/300x200/?clinic"
 								/>
 								<CardContent>
+									{/* Close Button */}
+									<IconButton
+										onClick={handleCloseModal}
+										sx={{
+											position: "absolute",
+											top: 10,
+											right: 10,
+											color: "#2ec4b6",
+											"&:hover": {
+												backgroundColor: "#ffbf69",
+											},
+										}}>
+										<CloseIcon />
+									</IconButton>
 									<Typography
 										variant="h6"
 										sx={{
 											color: "#2ec4b6",
+											mt: 2, // Margin top for spacing
 										}}>
 										{selectedClinic.name}
 									</Typography>
 									<Typography
 										variant="body2"
 										color="textSecondary"
-										component="p">
+										component="p"
+										sx={{ mt: 1 }} // Margin top for spacing
+									>
 										{selectedClinic.address}
 									</Typography>
 								</CardContent>
@@ -373,11 +392,6 @@ const DisplayLocMapColumn = () => {
 					</Paper>
 				</Box>
 			</Box>
-			<ClinicModal
-				clinic={selectedClinic}
-				open={modalOpen}
-				onClose={handleCloseModal}
-			/>
 		</Box>
 	);
 };
