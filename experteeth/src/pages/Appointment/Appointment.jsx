@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 
+// Custom Alert component
 const Alert = React.forwardRef(function Alert(props, ref) {
 	return (
 		<MuiAlert
@@ -81,20 +82,21 @@ const Appointment = () => {
 	};
 
 	return (
-		<Container maxWidth="sm">
-			<Box my={4} textAlign="center">
+		<Container maxWidth="sm" sx={{ mt: 8, mb: 8 }}>
+			<Box mb={4} textAlign="center">
 				<Typography
 					variant="h4"
 					component="h1"
-					gutterBottom>
-					REQUEST AN APPOINTMENT
+					gutterBottom
+					sx={{ color: "#11c39c" }}>
+					Request an Appointment
 				</Typography>
 			</Box>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				noValidate
 				autoComplete="off">
-				<Grid container spacing={2}>
+				<Grid container spacing={4}>
 					<Grid item xs={12} sm={6}>
 						<Controller
 							name="firstName"
@@ -203,7 +205,8 @@ const Appointment = () => {
 							fullWidth
 							margin="normal"
 							variant="outlined">
-							<InputLabel id="location-label">
+							<InputLabel
+								id="location-label">
 								Select Location
 							</InputLabel>
 							<Controller
@@ -238,7 +241,8 @@ const Appointment = () => {
 							fullWidth
 							margin="normal"
 							variant="outlined">
-							<InputLabel id="doctor-label">
+							<InputLabel
+								id="doctor-label">
 								Select Doctor
 							</InputLabel>
 							<Controller
@@ -281,7 +285,7 @@ const Appointment = () => {
 									label="Booking Comments"
 									fullWidth
 									multiline
-									rows={2}
+									rows={3}
 									margin="normal"
 									variant="outlined"
 								/>
@@ -347,13 +351,23 @@ const Appointment = () => {
 						/>
 					</Grid>
 				</Grid>
-				<Box textAlign="center" my={2}>
+				<Box textAlign="center" my={0.5}>
 					<Button
 						type="submit"
-						color="primary"
 						variant="contained"
-						size="large">
-						NEXT
+						size="large"
+						sx={{
+							backgroundColor: "#000000", // Black background for the button
+							color: "#ffffff",
+							fontWeight: "bold",
+							textTransform: "none",
+							borderRadius: "8px",
+							padding: "8px 30px",
+							"&:hover": {
+								backgroundColor: "#11c39c", // Teal color on hover
+							},
+						}}>
+						Next
 					</Button>
 				</Box>
 			</form>
