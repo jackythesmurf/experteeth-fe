@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	Container,
 	TextField,
@@ -9,7 +9,58 @@ import {
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
 
+// Mock user data for validation
+const mockUserData = {
+	username: "testuser",
+	password: "password123",
+};
+
 const Login = () => {
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [errors, setErrors] = useState({
+		username: "",
+		password: "",
+	});
+
+	const handleValidation = () => {
+		let formIsValid = true;
+		let errors = {};
+
+		if (!username) {
+			formIsValid = false;
+			errors["username"] = "Username cannot be empty";
+		}
+
+		if (!password) {
+			formIsValid = false;
+			errors["password"] = "Password cannot be empty";
+		}
+
+		setErrors(errors);
+		return formIsValid;
+	};
+
+	const handleLogin = () => {
+		if (handleValidation()) {
+			if (
+				username === mockUserData.username &&
+				password === mockUserData.password
+			) {
+				// Redirect to a new tab
+				window.open("/dashboard", "_blank");
+			} else {
+				alert("Invalid username or password");
+			}
+		}
+	};
+
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter") {
+			handleLogin();
+		}
+	};
+
 	return (
 		<Container
 			maxWidth="sm"
@@ -49,6 +100,11 @@ const Login = () => {
 						fullWidth
 						variant="outlined"
 						label="User Name"
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
+						onKeyDown={handleKeyDown}
+						error={!!errors.username}
+						helperText={errors.username}
 						InputLabelProps={{
 							style: { color: "#555" },
 						}}
@@ -86,6 +142,11 @@ const Login = () => {
 						variant="outlined"
 						label="Password"
 						type="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						onKeyDown={handleKeyDown}
+						error={!!errors.password}
+						helperText={errors.password}
 						sx={{
 							"& .MuiOutlinedInput-root": {
 								"& fieldset": {
@@ -115,6 +176,7 @@ const Login = () => {
 			<Button
 				variant="contained"
 				fullWidth
+				onClick={handleLogin}
 				sx={{
 					backgroundColor: "#031a15",
 					"&:hover": { backgroundColor: "#11c39c" },
