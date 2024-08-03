@@ -13,6 +13,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Treatment from "./pages/Treatment/Treatment";
 import Appointment from "./pages/Appointment/Appointment";
+import Login from "./pages/Login/Login";
 function App() {
 	return (
 		<Router>
@@ -32,6 +33,7 @@ function App() {
 					path="/appointment"
 					element={<Appointment />}
 				/>
+				<Route path="/login" element={<Login />} />
 			</Routes>
 		</Router>
 	);
