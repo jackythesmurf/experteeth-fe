@@ -13,6 +13,16 @@ import LockIcon from "@mui/icons-material/Lock";
 const mockUserData = {
 	username: "testuser",
 	password: "password123",
+	userType: "admin", // Example user type
+};
+
+// Function to set a cookie
+const setCookie = (name, value, days) => {
+	const expires = new Date();
+	expires.setTime(
+		expires.getTime() + days * 24 * 60 * 60 * 1000
+	);
+	document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
 };
 
 const Login = () => {
@@ -47,6 +57,9 @@ const Login = () => {
 				username === mockUserData.username &&
 				password === mockUserData.password
 			) {
+				// Set user type in cookies
+				setCookie("userType", mockUserData.userType, 7); // Cookie expires in 7 days
+
 				// Redirect to a new tab
 				window.open("/dashboard", "_blank");
 			} else {
