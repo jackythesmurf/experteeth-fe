@@ -9,11 +9,8 @@ import {
 	Button,
 	Paper,
 	Grid,
-	Card,
 	CardContent,
 	Container,
-	IconButton,
-	Tooltip,
 	Chip,
 } from "@mui/material";
 import { styled } from "@mui/system";
@@ -23,7 +20,8 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CommentIcon from "@mui/icons-material/Comment";
 import ServiceGrid from "../../components/containers/grid/AllServiceGrid/ServiceGrid";
-import staticMapUrl from "./map.png"
+import staticMapUrl from "./map.png";
+
 const StyledAppBar = styled(AppBar)({
 	backgroundColor: "#2ec4b6",
 	boxShadow: "none",
@@ -62,7 +60,6 @@ const HeroContent = styled(Box)({
 	color: "white", // Ensure text is white
 });
 
-
 const ContactButton = styled(Button)({
 	backgroundColor: "#000000",
 	color: "#fff",
@@ -81,6 +78,15 @@ const IconWrapper = styled(Box)({
 	marginBottom: "10px",
 });
 
+// Utility function to get a cookie by name
+const getCookie = (name) => {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2)
+		return parts.pop().split(";").shift();
+	return null;
+};
+
 const Clinics = () => {
 	const { identifier } = useParams();
 	const clinic = clinics.find(
@@ -89,14 +95,15 @@ const Clinics = () => {
 			identifier
 	);
 
+	// Check if the user is an admin
+	const isAdmin = getCookie("userType") === "admin";
+
 	if (!clinic) {
 		return <div>Clinic not found</div>;
 	}
 
 	return (
 		<Box sx={{ flexGrow: 1, backgroundColor: "#f9f9f9" }}>
-			{" "}
-			{/* Consistent background color */}
 			<StyledAppBar position="static">
 				<Toolbar>
 					<Typography
@@ -107,15 +114,14 @@ const Clinics = () => {
 					</Typography>
 				</Toolbar>
 			</StyledAppBar>
-			{/* Background Image with Title */}
 			<HeroBox>
 				<HeroContent>
 					<Typography
 						variant="h5"
 						sx={{
 							fontWeight: "bold",
-							color: "#44e7ba", // Accent color for the clinic name
-							textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)", // Subtle shadow for depth
+							color: "#44e7ba",
+							textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
 						}}>
 						{clinic.address}
 					</Typography>
@@ -124,7 +130,7 @@ const Clinics = () => {
 						sx={{
 							my: 1,
 							fontSize: "1.75rem",
-							textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)", // Subtle shadow for depth
+							textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
 						}}>
 						{clinic.name}
 					</Typography>
@@ -138,10 +144,8 @@ const Clinics = () => {
 					</Box>
 				</HeroContent>
 			</HeroBox>
-			{/* Main Content */}
 			<Container sx={{ paddingY: 4 }}>
 				<Grid container spacing={4}>
-					{/* About Us Section */}
 					<Grid item xs={12} md={8}>
 						<CardContent>
 							<Typography
@@ -159,7 +163,7 @@ const Clinics = () => {
 										bottom: -4,
 										width: "100%",
 										height: "2px",
-										backgroundColor: "#2ec4b6", // Soft underline color
+										backgroundColor: "#2ec4b6",
 									},
 								}}>
 								About Us
@@ -200,10 +204,31 @@ const Clinics = () => {
 									<strong>Comment:</strong> {clinic.comment}
 								</Typography>
 							</IconWrapper>
+							{/* Render Edit Button if user is admin */}
+							{isAdmin && (
+								<Button
+									variant="outlined"
+									sx={{
+										mt: 2,
+										borderColor: "#2ec4b6",
+										color: "#2ec4b6",
+										"&:hover": {
+											borderColor: "#44e7ba",
+											color: "#44e7ba",
+										},
+									}}
+									onClick={() => {
+										// Logic for editing content
+										alert(
+											"Edit functionality coming soon!"
+										);
+									}}>
+									Edit Details
+								</Button>
+							)}
 						</CardContent>
 					</Grid>
 
-					{/* Contact and Booking Section */}
 					<Grid item xs={12} md={4}>
 						<Paper
 							elevation={0}
@@ -235,14 +260,13 @@ const Clinics = () => {
 					</Grid>
 				</Grid>
 			</Container>
-			{/* Address Section */}
 			<Box
 				sx={{
-					width: "80%", // Set the box width to 80% of the screen
-					margin: "0 auto", // Center the box horizontally
+					width: "80%",
+					margin: "0 auto",
 					paddingY: 4,
 					backgroundColor: "#f9f9f9",
-					borderTop: "1px solid #cccccc", // Apply border only to the top
+					borderTop: "1px solid #cccccc",
 					textAlign: "center",
 				}}>
 				<ServiceGrid
@@ -250,62 +274,62 @@ const Clinics = () => {
 			</Box>
 			<Box
 				sx={{
-					width: "80%", // Set the box width to 80% of the screen
-					margin: "0 auto", // Center the box horizontally
+					width: "80%",
+					margin: "0 auto",
 					paddingY: 4,
 					backgroundColor: "#f9f9f9",
 					textAlign: "center",
 				}}>
 				<Box
 					sx={{
-						width: "80%", // Set the box width to 80% of the screen
-						margin: "0 auto", // Center the box horizontally
+						width: "80%",
+						margin: "0 auto",
 						paddingY: 4,
 						backgroundColor: "#f9f9f9",
-						borderTop: "1px solid #cccccc", // Apply border only to the top
+						borderTop: "1px solid #cccccc",
 					}}>
 					<Box
 						sx={{
 							display: "flex",
-							justifyContent: "flex-start", // Align to the left
+							justifyContent: "flex-start",
 							alignItems: "flex-start",
-							gap: 4, // Adds space between the elements
+							gap: 4,
 						}}>
 						<Box
 							sx={{
-								flex: "0 0 25%", // Fix width for left section
+								flex: "0 0 25%",
 								display: "flex",
 								flexDirection: "column",
-								alignItems: "flex-start", // Align content to the left
-								gap: 2, // Smaller gap for elements in column
-								px: 2, // Horizontal padding
+								alignItems: "flex-start",
+								gap: 2,
+								px: 2,
 							}}>
 							<Typography
-								variant="h5" // Use a larger and more prominent variant
+								variant="h5"
 								sx={{
 									color: "#2ec4b6",
 									mb: 2,
-									fontWeight: "bold", // Bold text for emphasis
-									textAlign: "left", // Align text to the left for formality
-									textTransform: "uppercase", // Use uppercase letters for a more formal look
-									letterSpacing: "1px", // Add letter spacing for readability
-									fontFamily: "'Roboto', sans-serif", // Use a professional font
-									borderBottom: "2px solid #2ec4b6", // Add a subtle underline for distinction
-									paddingBottom: "8px", // Add padding to separate text from underline
+									fontWeight: "bold",
+									textAlign: "left",
+									textTransform: "uppercase",
+									letterSpacing: "1px",
+									fontFamily: "'Roboto', sans-serif",
+									borderBottom: "2px solid #2ec4b6",
+									paddingBottom: "8px",
 								}}>
 								Visit Us:
 							</Typography>
 
 							<Chip
 								label={clinic.address}
-								icon={<LocationOnIcon fontSize="medium" />} // Increase icon size
+								icon={<LocationOnIcon fontSize="medium" />}
 								sx={{
 									mb: 2,
 									bgcolor: "#f1f1f1",
 									color: "#000",
-									boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
-									fontSize: "1rem", // Increase font size
-									padding: "10px 16px", // Increase padding for a larger appearance
+									boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+									fontSize: "1rem",
+									padding: "10px 16px",
 								}}
 							/>
 						</Box>
@@ -313,20 +337,20 @@ const Clinics = () => {
 						<Box
 							sx={{
 								display: "flex",
-								justifyContent: "flex-end", // Align items to the right
-								width: "100%", // Ensure the container takes the full width
+								justifyContent: "flex-end",
+								width: "100%",
 							}}>
 							<Box
 								sx={{
-									flex: "1", // Occupy remaining space for the map
+									flex: "1",
 									overflow: "hidden",
-									borderRadius: "12px", // Rounded corners
+									borderRadius: "12px",
 									border:
-										"1px solid rgba(255, 255, 255, 0.2)", // Light border
-									backdropFilter: "blur(10px)", // Glassmorphism effect
-									background: "rgba(255, 255, 255, 0.1)", // Semi-transparent background
-									boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // More subtle shadow
-									transition: "transform 0.3s ease", // Smooth transition effect
+										"1px solid rgba(255, 255, 255, 0.2)",
+									backdropFilter: "blur(10px)",
+									background: "rgba(255, 255, 255, 0.1)",
+									boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+									transition: "transform 0.3s ease",
 									maxHeight: "40vh",
 									maxWidth: "40vw",
 								}}>
@@ -336,8 +360,8 @@ const Clinics = () => {
 									style={{
 										width: "100%",
 										height: "100%",
-										objectFit: "cover", // Cover the box while maintaining aspect ratio
-										display: "block", // Ensures no gap below the image
+										objectFit: "cover",
+										display: "block",
 									}}
 								/>
 							</Box>
