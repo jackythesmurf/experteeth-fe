@@ -305,7 +305,8 @@ const DisplayLocMapColumn = () => {
 											}}>
 											<ListItemText
 												sx={{
-													p: 1.5,
+													p: 2,
+													paddingLeft: 0,
 												}}
 												primary={clinic.name}
 												secondary={clinic.address}
@@ -365,7 +366,7 @@ const DisplayLocMapColumn = () => {
 															borderRadius: "6px", // Smaller border radius for tighter corners
 															padding: "6px 12px", // Reduced padding for smaller button size
 															fontWeight: "bold",
-															fontSize: "0.55rem", // Smaller font size
+															fontSize: "0.70rem", // Smaller font size
 															boxShadow:
 																"0 2px 4px rgba(0, 0, 0, 0.1)", // Slightly reduced shadow for compactness
 															transition:

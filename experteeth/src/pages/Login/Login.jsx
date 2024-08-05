@@ -8,21 +8,13 @@ import {
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
+import Cookies from "js-cookie";
 
 // Mock user data for validation
 const mockUserData = {
 	username: "testuser",
 	password: "password123",
 	userType: "admin", // Example user type
-};
-
-// Function to set a cookie
-const setCookie = (name, value, days) => {
-	const expires = new Date();
-	expires.setTime(
-		expires.getTime() + days * 24 * 60 * 60 * 1000
-	);
-	document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
 };
 
 const Login = () => {
@@ -57,11 +49,22 @@ const Login = () => {
 				username === mockUserData.username &&
 				password === mockUserData.password
 			) {
-				// Set user type in cookies
-				setCookie("userType", mockUserData.userType, 7); // Cookie expires in 7 days
+				// Set user type in cookies securely
+				Cookies.set("userType", mockUserData.userType, {
+					expires: 1, // 1 day
+					secure: true,
+					sameSite: "Strict",
+				});
 
-				// Redirect to a new tab
-				window.open("/dashboard", "_blank");
+				// Open the LoginSuccess component in a new tab
+				const newTab = window.open("", "_blank");
+				newTab.document.write(
+					"<h1>Login Success</h1><p>You are now logged in as an admin.</p>"
+				);
+				newTab.document.title = "Login Success";
+
+				// Optionally, you could redirect to a route handled by your application in a new tab
+				// newTab.location.href = '/login-success'; // Ensure this path is routed to render the success message
 			} else {
 				alert("Invalid username or password");
 			}

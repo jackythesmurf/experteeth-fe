@@ -15,6 +15,7 @@ import Treatment from "./pages/Treatment/Treatment";
 import Appointment from "./pages/Appointment/Appointment";
 import Login from "./pages/Login/Login";
 import Clinics from "./pages/Clinics/Clinics";
+import LoginSuccess from "./pages/LoginSuccess/LoginSuccess";
 function App() {
 	return (
 		<Router>
@@ -37,6 +38,10 @@ function App() {
 				<Route
 					path="/clinics/:identifier"
 					element={<Clinics />}
+				/>
+				<Route
+					path="/login-success"
+					element={<LoginSuccess />}
 				/>
 			</Routes>
 		</Router>
