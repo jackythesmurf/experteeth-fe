@@ -12,8 +12,8 @@ import Cookies from "js-cookie";
 
 // Mock user data for validation
 const mockUserData = {
-	username: "testuser",
-	password: "password123",
+	username: "admin",
+	password: "123",
 	userType: "admin", // Example user type
 };
 
@@ -55,13 +55,19 @@ const Login = () => {
 					secure: true,
 					sameSite: "Strict",
 				});
-
 				// Open the LoginSuccess component in a new tab
-				const newTab = window.open("", "_blank");
-				newTab.document.write(
-					"<h1>Login Success</h1><p>You are now logged in as an admin.</p>"
+				const newTab = window.open(
+					"/login-success",
+					"_blank"
 				);
-				newTab.document.title = "Login Success";
+
+				if (newTab) {
+					newTab.focus(); // Focus on the new tab
+				} else {
+					alert(
+						"Popup blocker is enabled! Please allow popups for this site."
+					);
+				}
 
 				// Optionally, you could redirect to a route handled by your application in a new tab
 				// newTab.location.href = '/login-success'; // Ensure this path is routed to render the success message
