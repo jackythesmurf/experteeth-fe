@@ -18,7 +18,6 @@ import Clinics from "./pages/Clinics/Clinics";
 function App() {
 	return (
 		<Router>
-			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route

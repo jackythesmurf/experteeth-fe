@@ -321,42 +321,9 @@ const DisplayLocMapColumn = () => {
 													position: "absolute",
 													right: 0,
 													display: "grid",
-													gap: 4, // Smaller gap between elements
-													mt: 6, // Reduce margin top for compactness
+													gap: 4,
+													mt: 6,
 												}}>
-												<a
-													href={`/appointment`}
-													target="_blank"
-													rel="noopener noreferrer"
-													style={{
-														textDecoration: "none",
-													}}>
-													<Button
-														variant="contained"
-														startIcon={<ScheduleIcon />} // Use ScheduleIcon from MUI
-														sx={{
-															display: "flex",
-															alignItems: "center",
-															justifyContent: "center",
-															backgroundColor: "black",
-															color: "#ffffff",
-															borderRadius: "6px", // Smaller border radius for tighter corners
-															padding: "6px 12px", // Reduced padding for smaller button size
-															fontWeight: "bold",
-															fontSize: "0.85rem", // Smaller font size
-															boxShadow:
-																"0 2px 4px rgba(0, 0, 0, 0.1)", // Slightly reduced shadow for compactness
-															transition:
-																"background-color 0.3s, transform 0.3s", // Smooth transitions
-															"&:hover": {
-																backgroundColor: "#11c39c", // Different color on hover
-																transform:
-																	"translateY(-1px)", // Subtle lift effect on hover
-															},
-														}}>
-														Request Appointment
-													</Button>
-												</a>
 												<a
 													href={`/clinics/${clinic.id}`}
 													target="_blank"
@@ -377,6 +344,40 @@ const DisplayLocMapColumn = () => {
 															<ArrowForwardIcon />
 														</IconButton>
 													</Tooltip>
+												</a>
+												<a
+													href={`/appointment`}
+													target="_blank"
+													rel="noopener noreferrer"
+													style={{
+														textDecoration: "none",
+													}}>
+													<Button
+														variant="contained"
+														startIcon={<ScheduleIcon />} // Use ScheduleIcon from MUI
+														sx={{
+															display: "flex",
+															alignItems: "center",
+															justifyContent: "center",
+															backgroundColor: "black",
+															marginBottom: "10px",
+															color: "#ffffff",
+															borderRadius: "6px", // Smaller border radius for tighter corners
+															padding: "6px 12px", // Reduced padding for smaller button size
+															fontWeight: "bold",
+															fontSize: "0.55rem", // Smaller font size
+															boxShadow:
+																"0 2px 4px rgba(0, 0, 0, 0.1)", // Slightly reduced shadow for compactness
+															transition:
+																"background-color 0.3s, transform 0.3s", // Smooth transitions
+															"&:hover": {
+																backgroundColor: "#11c39c", // Different color on hover
+																transform:
+																	"translateY(-1px)", // Subtle lift effect on hover
+															},
+														}}>
+														Request Appointment
+													</Button>
 												</a>
 											</Box>
 										</ListItem>
